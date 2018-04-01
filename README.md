@@ -1,37 +1,23 @@
-## Welcome to GitHub Pages
+## Durango Gleaning V2
 
-You can use the [editor on GitHub](https://github.com/lorax521/DurangoGleaningV2/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+This is a web map application desgined for data collection and basic geoprocessing using carto as the database. It provides 2 geoprocessing functions, finding the x number of nearest points and finding all points within x miles. It also has an edit mode where points can be added/removed from the map. When adding points, a form is used to encode point properties to the carto database.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Setup
+This application is in development stage and requires suffcient changes to work for other databases. However it can be done following the steps below.
 
-### Markdown
+To create your own:
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/lorax521/DurangoGleaningV2/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+1) Go to https://carto.com/ and create a database.
+2) In the script.js file update:
+2a) The variables cartoDBUserName with your carto username and sqlDB with your carto database name.
+2b) The properties you want to show in the popups for functions showAll, showAllWithEdit, nearestPoints, and buffer.
+3) If you want to add/remove data points:
+3a) In the script.js file update the last line of the variable sql in the function persistOnCartoDB. Add/remove an ARRAY['"+ your_variable + "'] for each property you want to be able to input in the database.
+3b) The security-definer-function.sql requres updates in a few places. First, within CREATE OR REPLACE FUNCTION upsertLeafletData(), add/remove the variables you want to encode. Currently, all data types must be stored text[] or deleting the points does not work. Next, add the column names to sql := 'WITH n(). Then, within the LOOP, add/remove your properties CASTing them as text. Following, add your column names to INSERT INTO durango () within the SQL function. Add/remove a n.your_column_name for each property in the following SELECT statement. Finally, add the number of inputs in your function to the last line, GRANT EXECUTE ON FUNCTION upsertLeafletData().
+4) To modify your function, the first line, DROP FUNCTION IF EXISTS upsertLeafletData(), will need to mimic the last function created.
+5) Paste the entire security-definer-function.sql file into the SQL line in your carto database to make the functions available in your JavaScript.
+6) Modify the form in the index.html to match your changes.
 
 ### Support or Contact
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+If you have any trouble or make any significant improvements I would love to hear about it.
