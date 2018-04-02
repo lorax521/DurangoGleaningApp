@@ -20,8 +20,8 @@ To create your own:
 
 ### Bugs
 List of the known bugs:
-* The green icon does not disappear following the creation of a point. Work around: refresh page.
-* The point does not always disapear when deleting a point. In this case, generally the database is updated properly, but the post processes slower than the function to remove the point. Work around: refresh page.
+* When using geoprocessing functions sometimes points get stuck or do not appear. This is a problem communicating with the database. Work around: refresh page.
+* The point does not always appear/disapear when creating/deleting a point. In this case, generally the database is updated properly, but the post processes slower than the function to remove the point. Work around: refresh page.
 * The do_delete SQL function does not work when writing data types other than text[]. Work around: keep all new data types as text.
 
 ### Support or Contact
