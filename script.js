@@ -192,8 +192,7 @@ map.addLayer(editableLayers);
 let myCustomMarker = L.Icon.extend({
   options: {
     shadowUrl: null,
-    iconAnchor: new L.Point(12, 12),
-    iconSize: new L.Point(25, 40),
+    iconSize: [25, 40],
     iconAnchor: [13, 41],
     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
   }
