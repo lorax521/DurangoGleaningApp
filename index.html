@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Durango Gleaning Map</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+    <div id="wrapper">
+      <div id="header">
+        <!-- <h1>Durango Gleaning Map</h1> -->
+      </div>
+      <button id="reset-button" onclick="showAll()" value="Reset Map"><i class='fa fa-refresh'></i><div id="hidden"><i class="fa fa-refresh fa-spin" aria-hidden="true"></i></div></button>
+      <button id="editable" onclick="toggleEdit()"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+
+      <div id="tree-form">
+        <h3>New Tree Submission Form</h3>
+        <form id="form">
+          <input type="hidden" class="form-control" id="form-geom" placeholder="geom placeholder">
+          <div class="form-group">
+            <label>Tree type: </label>
+            <input type="text" class="form-control" id="form-type" placeholder="Peach">
+          </div>
+          <div class="form-group">
+            <label>Tree count: </label>
+            <input type="text" class="form-control" id="form-count" placeholder="3">
+          </div>
+          <div class="form-group">
+            <label>Request access to harvest: </label>
+            <input type="text" class="form-control" id="form-permission" aria-describedby="emailHelp" placeholder="no">
+          </div>
+          <div class="form-group">
+            <label>Additional notes: </label>
+            <input type="text" class="form-control" id="form-notes" aria-describedby="emailHelp" placeholder="past the gate on the left">
+          </div>
+        </form>
+        <button id="cancelButton" onclick="cancelPostPoint()">Cancel</button>
+        <button id="submitButton" onclick="postPoint(layer)">Submit</button>
+          <p>Thank you for contributing to the Durango Gleaning Project!</p>
+      </div>
+      <div id="map"></div>
+    </div>
+    
+    <div id='geospatial-tools-container'>
+      <div id='geospatial-header'>
+        <div id='geospatial-title'>Geoprocessing tools:</div>
+        <div id='geospatial-tools'>
+          <form>
+            <select id='geospatial-tools-menu' onchange='startGeospatialTool(this.value)'>
+              <option value='none'>None</option>
+              <option value='nearest'>Number of nearest points</option>
+              <option value='buffer'>Points within specified distance</option>
+            </select>
+          </form>
+        </div>
+      </div>
+      <div id='geospatial-tool-nearest'>
+        <button id='geospatial-editable' onclick="infoNearest()"><i class="fa fa-hashtag" aria-hidden="true"></i></button>
+        <input id='number-of-points'>
+      </div>
+      <div id='geospatial-tool-buffer'>
+        <button id='geospatial-editable' onclick="infoBuffer()"><i class="fa fa-dot-circle-o" aria-hidden="true"></i></button>
+        <input id='buffer-distance'>
+        <div id="unit">Miles</div>
+      </div>
+      <!-- <div class='geospatial-tool'>
+        <button id='geospatial-editable' onclick="toggleGeoprocessing()"><i class="fa fa-power-off" aria-hidden="true"></i></button>
+      </div> -->
+    </div>
+    <button id=locate onclick="locateUser()"><i class="fa fa-crosshairs" aria-hidden="true"></i></button>
+
+    <div id="legend">
+      <h4>Legend</h4>
+      <div class="legend-item">
+        <img src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png">
+        <div class="legend-content">Fruit available</div>
+      </div>
+      <div class="legend-item">
+        <img src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-grey.png">
+        <div class="legend-content">Harvested</div>
+      </div>
+    </div>
+
+    <!-- include leaflet.js library -->
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
