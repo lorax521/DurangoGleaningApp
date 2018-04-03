@@ -30,7 +30,7 @@
             <input type="text" class="form-control" id="form-count" placeholder="3">
           </div>
           <div class="form-group">
-            <label>Request access to harvest: </label>
+            <label>Permission required: </label>
             <input type="text" class="form-control" id="form-permission" aria-describedby="emailHelp" placeholder="no">
           </div>
           <div class="form-group">
@@ -38,8 +38,10 @@
             <input type="text" class="form-control" id="form-notes" aria-describedby="emailHelp" placeholder="past the gate on the left">
           </div>
         </form>
-        <button id="cancelButton" onclick="cancelPostPoint()">Cancel</button>
-        <button id="submitButton" onclick="postPoint(layer)">Submit</button>
+        <div id="form-control-buttons">
+          <button id="cancelButton" onclick="cancelPostPoint()">Cancel</button>
+          <button id="submitButton" onclick="postPoint(layer)">Submit</button>
+        </div>
           <p>Thank you for contributing to the Durango Gleaning Project!</p>
       </div>
       <div id="map"></div>
@@ -53,7 +55,7 @@
             <select id='geospatial-tools-menu' onchange='startGeospatialTool(this.value)'>
               <option value='none'>None</option>
               <option value='nearest'>Number of nearest points</option>
-              <option value='buffer'>Points within specified distance</option>
+              <option value='buffer'>Points within specified miles</option>
             </select>
           </form>
         </div>
@@ -65,7 +67,7 @@
       <div id='geospatial-tool-buffer'>
         <button id='geospatial-editable' onclick="infoBuffer()"><i class="fa fa-dot-circle-o" aria-hidden="true"></i></button>
         <input id='buffer-distance'>
-        <div id="unit">Miles</div>
+        <!--<div id="unit">Miles</div>-->
       </div>
     </div>
 
