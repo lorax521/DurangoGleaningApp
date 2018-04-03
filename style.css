@@ -156,6 +156,32 @@ body {
     background-color: rgb(240, 240, 240);
   }
 
+#geoprocessing-maximize {
+    display: none;
+    position: absolute;
+    height: 32px;
+    width: 34px;
+    background-color: white;
+    box-shadow: 0 1px 1px 0 #888;
+    border: none;
+    padding: 5px 8px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    z-index: 2000;
+    top: 182px;
+    left: 10px;
+    transition: 0.2s ease-in-out;
+    cursor: pointer;
+    color: black;
+    font-size: 21px;
+}
+
+#editable:hover {
+    color: rgb(68, 68, 68);
+    background-color: rgb(240, 240, 240);
+}
+
   #tree-form {
     display: none;
     position: absolute;
