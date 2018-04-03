@@ -177,6 +177,16 @@ body {
     font-size: 21px;
 }
 
+#geoprocessing-minimize {
+    color: black;
+    position: absolute;
+    right: 1px;
+    top: 2px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
 #editable:hover {
     color: rgb(68, 68, 68);
     background-color: rgb(240, 240, 240);
@@ -483,6 +493,10 @@ body {
 
     #geospatial-tools-menu {
       padding: 3px;
+    }
+
+    #geoprocessing-minimize {
+        right: -90px;
     }
 
   }
