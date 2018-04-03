@@ -334,6 +334,7 @@ body {
   }
 
   #legend {
+    display: block;
     background: rgba(255, 255, 255, 0.8);
     box-shadow: 1px 1px 1px 0 #afafaf;
     z-index: 1000;
@@ -341,6 +342,34 @@ body {
     right: 10px;
     bottom: 23px;
     padding: 4px;
+  }
+
+  #legend-minimize {
+    color: black;
+    position: absolute;
+    right: 1px;
+    top: 2px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+
+  #legend-maximize {
+    display: none;
+    color: #1b3737;
+    background: #f0f0f0;
+    position: fixed;
+    bottom: 20px;
+    right:0;
+    border: none;
+    border-radius: 3px;
+    padding: 3px;
+    z-index: 1000;
+    cursor: pointer;
+  }
+
+  #legend-maximize:hover {
+      background: #e6e6e6;
   }
 
   #legend h4 {
@@ -403,6 +432,10 @@ body {
       font-size: 14px;
     }
 
+    #legend-maximize {
+        bottom: 50px;
+    }
+
     #tree-form {
       top: 25vh;
       right: 3vw;
@@ -421,7 +454,7 @@ body {
     .form-control {
       width: 32vw;
     }
-  
+
     #geospatial-tools-menu {
       padding: 3px;
     }
