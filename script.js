@@ -16,6 +16,7 @@ let numberOfPoints;
 let bufferDistance;
 let markerSymbol;
 let newSymbol = 'default';
+let legendActive = true;
 
 let navigationCoords;
  // variable to hold marker locations
@@ -438,4 +439,15 @@ function toggleEdit() {
       // navigates to marker coordinates
       function navigate () {
         window.open(`https://www.google.com/maps/dir/Current+Location/${navigationCoords}`, '_blank');
+      }
+
+      function toggleLegend() {
+        if (legendActive) {
+            $('#legend').css('display', 'none');
+            $('#legend-maximize').css('display', 'block');
+        } else {
+            $('#legend').css('display', 'block');
+            $('#legend-maximize').css('display', 'none');
+        }
+        legendActive = !legendActive;
       }
