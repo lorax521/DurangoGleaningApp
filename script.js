@@ -413,6 +413,7 @@ function toggleEdit() {
           bufferActive = false;
           nearestActive = true;
           $('#geospatial-tool-buffer').css('display', 'none');
+          $('#geoprocessing-minimize').css('display', 'none');
           $('#geospatial-tool-nearest').css('display', 'inline-block');
           $('#number-of-points').val('3');
         }
@@ -420,6 +421,7 @@ function toggleEdit() {
           nearestActive = false;
           bufferActive = true;
           $('#geospatial-tool-nearest').css('display', 'none');
+          $('#geoprocessing-minimize').css('display', 'none');
           $('#geospatial-tool-buffer').css('display', 'inline-block');
           $('#buffer-distance').val('5');
         }
@@ -428,6 +430,7 @@ function toggleEdit() {
           bufferActive = false;
           $('#geospatial-tool-nearest').css('display', 'none');
           $('#geospatial-tool-buffer').css('display', 'none');
+          $('#geoprocessing-minimize').css('display', 'block');
         }
         console.log(geospatialTool);
       }
@@ -463,3 +466,4 @@ function toggleEdit() {
         }
           geoprocessingActive = !geoprocessingActive;
       }
+
