@@ -421,5 +421,9 @@ body {
     .form-control {
       width: 32vw;
     }
+  
+    #geospatial-tools-menu {
+      padding: 3px;
+    }
 
   }
