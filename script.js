@@ -458,7 +458,7 @@ function toggleEdit() {
             $('#geospatial-tools-container').css('display', 'none');
             $('#geoprocessing-maximize').css('display', 'block');
         } else {
-            $('#geospatial-tools-container').css('display', 'block');
+            $('#geospatial-tools-container').css('display', 'flex');
             $('#geoprocessing-maximize').css('display', 'none');
         }
           geoprocessingActive = !geoprocessingActive;
