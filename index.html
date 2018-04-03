@@ -72,6 +72,8 @@
     </div>
 
     <div id="legend">
+      <button id="legend-minimize" onclick="toggleLegend()"><i class="fa fa-window-minimize" aria-hidden="true"></i></button>
+      <!--<button id="legend-minimize"></button>-->
       <h4>Legend</h4>
       <div class="legend-item">
         <img src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png">
@@ -82,7 +84,7 @@
         <div class="legend-content">Harvested</div>
       </div>
     </div>
-
+    <button id="legend-maximize" onclick="toggleLegend()">Legend</button>
     <!-- include leaflet.js library -->
     <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
