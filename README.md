@@ -1,6 +1,6 @@
 ## Durango Gleaning V2
 
-This is a web map application desgined for data collection and basic geoprocessing using carto as the database. It provides 2 geoprocessing functions, finding the x number of nearest points and finding all points within x miles. It also has an edit mode where points can be added/removed from the map. When adding points, a form is used to encode point properties to the carto database.
+This is a web map application desgined for data collection and basic geoprocessing using carto as the database. It provides 2 geoprocessing functions, finding the x number of nearest points and finding all points within x miles. It also has an edit mode where points can be added/removed from the map. When adding points, a form is used to encode point properties to the carto database. Additionally, Google maps is used for navigation.
 
 ### Setup
 This application is in development stage and requires suffcient changes to work for other databases. However it can be done following the steps below.
