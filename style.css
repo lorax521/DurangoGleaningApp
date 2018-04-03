@@ -157,7 +157,7 @@ body {
   }
 
   #tree-form {
-    display: block;
+    display: none;
     position: absolute;
     background-color: rgba(255, 255, 255, 0.9); 
     box-shadow: 1px 2px 2px #888;
