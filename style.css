@@ -157,7 +157,7 @@ body {
   }
 
   #tree-form {
-    display: none;
+    display: block;
     position: absolute;
     background-color: rgba(255, 255, 255, 0.9); 
     box-shadow: 1px 2px 2px #888;
@@ -167,8 +167,8 @@ body {
     text-align: center;
     text-decoration: none;
     z-index: 1500;
-    top: 35%;
-    right: 35%;
+    top: 34%;
+    right: 40%;
     transition: 0.2s ease-in-out;
     font-size: 25px;
     border-radius: 3px;
@@ -185,6 +185,10 @@ body {
     float: right;
     border-radius: 1px;
     margin-left: 20px;
+  }
+
+  #form-control-buttons {
+    padding: 15px 0 0 0;
   }
 
   #hidden {
@@ -355,4 +359,67 @@ body {
     margin-top: 10px;
     color: darkslategray;
     font-size: 15px;
+  }
+
+  @media only screen and (max-device-width: 600px){
+    #geospatial-tools-container {
+      left: 50%;
+      right: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    #geospatial-editable {
+      display: none;
+    }
+
+    #geospatial-title {
+      background: rgba(255,255,255,1);
+      padding: 1px;
+    }
+
+    #reset-button {
+      right: 3vw;
+    }
+
+    #locate {
+      right: 3vw;
+    }
+
+    #legend {
+      bottom: 50px;
+      right: 4px;
+      font-size: 15px;
+    }
+
+    #legend img {
+      height: 25px;
+    }
+
+    .legend-content {
+      font-size: 14px;
+    }
+
+    #tree-form {
+      top: 25vh;
+      right: 3vw;
+      left: 3vw;
+      padding: 10px 15px;
+    }
+
+    .form-group label {
+      font-size: 19px;
+    }
+
+    #tree-form h3 {
+      font-size: 1em;
+    }
+
+    .form-control {
+      width: 32vw;
+    }
+
   }
