@@ -18,6 +18,7 @@ let markerSymbol;
 let newSymbol = 'default';
 let legendActive = true;
 let geoprocessingActive = true;
+let bufferDraw;
 
 let navigationCoords;
  // variable to hold marker locations
@@ -64,12 +65,9 @@ const greenIcon = L.Icon.extend({
  function showAll() {
   $('#editable').css('background', 'white');
   $('#editable').css('color', 'black');
-  if (map.hasLayer(markerLocations)) {
-    map.removeLayer(markerLocations);
-  };
-  if (map.hasLayer(locationMarker)) {
-    map.removeLayer(locationMarker);
-  };
+  map.hasLayer(markerLocations) ? map.removeLayer(markerLocations) : null;
+  map.hasLayer(locationMarker) ? map.removeLayer(locationMarker) : null;
+  bufferDraw ? bufferDraw.removeFrom(map) : null;
   //  map.setView(new L.LatLng(37.284972, -107.875428), 11);
    $.getJSON(`https://${cartoDBUserName}.carto.com/api/v2/sql?format=GeoJSON&q=${sqlQuery}`, function(data) {
      markerLocations = L.geoJson(data,{
@@ -96,12 +94,9 @@ const greenIcon = L.Icon.extend({
   function showAllWithEdit(){
     $('#editable').css('background', '#808080')
     $('#editable').css('color', '#f5f5f5')
-    if (map.hasLayer(markerLocations)) {
-      map.removeLayer(markerLocations);
-    };
-    if (map.hasLayer(locationMarker)) {
-      map.removeLayer(locationMarker);
-    };
+    map.hasLayer(markerLocations) ? map.removeLayer(markerLocations) : null;
+    map.hasLayer(locationMarker) ? map.removeLayer(locationMarker) : null;
+    bufferDraw ? bufferDraw.removeFrom(map) : null;
     // map.setView(new L.LatLng(37.284972, -107.875428), 11);
     $.getJSON(`https://${cartoDBUserName}.carto.com/api/v2/sql?format=GeoJSON&q=${sqlQuery}`, function(data) {
       markerLocations = L.geoJson(data,{
@@ -125,7 +120,6 @@ const greenIcon = L.Icon.extend({
            cartoLayer = layer.layer;
            markerSymbol = layer.layer.feature.properties.icon;
            newSymbol = markerSymbol == 'harvested' | markerSymbol == null ? 'default' : 'harvested';
-           console.log(newSymbol);
       });
     });
   };
@@ -165,7 +159,7 @@ const greenIcon = L.Icon.extend({
 
     //find and make markers for the nearest 5 markers
     function buffer() {
-        bufferDistance = $('#buffer-distance').val() / 69;
+        bufferDistance = $('#buffer-distance').val() / (Math.cos(myLocation.lat) * 69.172);
         if (bufferActive) {
             //sql query
             const sqlQueryBuffer = `select * from durango where st_intersects(the_geom, (select st_buffer((st_geomfromtext('POINT(${myLocation.lng} ${myLocation.lat})', 4326)), ${bufferDistance})));`;
@@ -176,6 +170,14 @@ const greenIcon = L.Icon.extend({
             if (map.hasLayer(locationMarker)) {
                 map.removeLayer(locationMarker);
             };
+            // handles buffer visualization
+            bufferDraw ? bufferDraw.removeFrom(map) : null;
+            const val = bufferDistance;
+            if (val) {
+              // const buff = turf.buffer(turf.point([myLocation.lng, myLocation.lat]), val, {units: 'degrees'}); //buffer projects to transverse mercator and presents discrepancies in buffer radii 
+              const buff = turf.circle(turf.point([myLocation.lng, myLocation.lat]), val, {units: 'degrees'}); //circle is more accuate than buffer for mid latitudes
+              bufferDraw = L.geoJson(buff).addTo(map);
+            }
 
             //get GeoJSON of five closest points
             $.getJSON(`https://${cartoDBUserName}.carto.com/api/v2/sql?format=GeoJSON&q=${sqlQueryBuffer}`, function(data) {
@@ -269,7 +271,6 @@ const drawPluginOptions = {
 const drawControl = new L.Control.Draw(drawPluginOptions);
 
 let layer = map.on('draw:created', function (e) {
-  if (editableLayers._layers) {console.log('true')}
   const type = e.layerType,
   layer = e.layer;
   const form = document.querySelector('#tree-form');
@@ -349,12 +350,10 @@ function toggleEdit() {
       const Vpermission = $('#form-permission').val();
       const Vnotes = $('#form-notes').val();
       const geom = document.querySelector('#form-geom').value;
-      //console.log(action + " persistOnCartoDB");
       switch (action) {
         case "UPDATE":
             cartodb_ids.push(layers.cartodb_id);
             geojsons.push(`'{"type":"Point","coordinates":[-108, 39]}'`);
-          console.log(geom);
           break;
         case "INSERT":
           cartodb_ids.push(-1);
@@ -432,7 +431,6 @@ function toggleEdit() {
           $('#geospatial-tool-buffer').css('display', 'none');
           $('#geoprocessing-minimize').css('display', 'block');
         }
-        console.log(geospatialTool);
       }
 
       // sets the map location to the users location
