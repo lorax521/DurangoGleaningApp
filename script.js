@@ -427,6 +427,10 @@ function toggleEdit() {
         if (geospatialTool === 'none') {
           nearestActive = false;
           bufferActive = false;
+          map.hasLayer(markerLocations) ? map.removeLayer(markerLocations) : null;
+          map.hasLayer(locationMarker) ? map.removeLayer(locationMarker) : null;
+          bufferDraw ? bufferDraw.removeFrom(map) : null;
+          showAll();
           $('#geospatial-tool-nearest').css('display', 'none');
           $('#geospatial-tool-buffer').css('display', 'none');
           $('#geoprocessing-minimize').css('display', 'block');
