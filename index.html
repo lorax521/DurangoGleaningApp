@@ -8,15 +8,19 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="style-tooltip.css">
   </head>
   <body>
     <div id="wrapper">
       <div id="header">
       </div>
-      <button id="reset-button" onclick="showAll()" value="Reset Map"><i class='fa fa-refresh'></i><div id="hidden"><i class="fa fa-refresh fa-spin" aria-hidden="true"></i></div></button>
-      <button id="editable" onclick="toggleEdit()"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-      <button id="locate" onclick="locateUser()"><i class="fa fa-crosshairs" aria-hidden="true"></i></button>
-      <button id="geoprocessing-maximize" onclick="toggleGeoprocessing()"><i class="fa fa-globe" aria-hidden="true"></i></button>
+      <button id="reset-button" onclick="showAll()" value="Reset Map" tooltip="Refresh the map" tooltip-position="left"><i class='fa fa-refresh'></i><div id="hidden"><i class="fa fa-refresh fa-spin" aria-hidden="true"></i></div></button>
+      <button id="editable" onclick="toggleEdit()" tooltip="Edit the trees. Create new ones, change their symbol or delete them." tooltip-position="right"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+      <!-- <button id="locate" onclick="locateUser()"><i class="fa fa-crosshairs" aria-hidden="true"></i></button> -->
+      <button id="locate" onclick="locateUser()" tooltip="Find your location" tooltip-position="left"><i class="fa fa-crosshairs" aria-hidden="true"></i></button>
+      <button id="geoprocessing-maximize" onclick="toggleGeoprocessing()" tooltip="Open map tools." tooltip-position="right"><i class="fa fa-globe" aria-hidden="true"></i></button>
+      <!-- <button id="locate" onclick="locateUser()" tooltip="Find your location" tooltip-position="left"><i class="fa fa-crosshairs" aria-hidden="true"></i></button> -->
+      <button id="fullscreen" onclick="fullscreen()" tooltip="Fullscreen" tooltip-position="left"><i class="fa fa-expand" aria-hidden="true"></i></button>
 
       <div id="tree-form">
         <h3>New Tree Submission Form</h3>
@@ -32,7 +36,19 @@
           </div>
           <div class="form-group">
             <label>Permission required: </label>
-            <input type="text" class="form-control" id="form-permission" aria-describedby="emailHelp" placeholder="no">
+            <select class="form-control" id="form-permission">
+              <option value='' selected='selected' disabled></option>
+              <option value="yes">yes</option>
+              <option value="no">no</option>
+            </select>
+          </div>
+          <div class="form-group">
+              <label>Address: </label>
+              <input type="text" class="form-control" id="form-address" aria-describedby="emailHelp" placeholder="1000 Rim Drive, Fort Lewis, CO 81301">
+          </div>
+          <div class="form-group">
+            <label>Contact: </label>
+            <input type="text" class="form-control" id="form-contact" aria-describedby="emailHelp" placeholder="202-456-1111 or abc@gmail.com">
           </div>
           <div class="form-group">
             <label>Additional notes: </label>
@@ -51,13 +67,13 @@
     <div id='geospatial-tools-container'>
       <div id='geospatial-header'>
       <button id="geoprocessing-minimize" onclick="toggleGeoprocessing()"><i class="fa fa-window-minimize" aria-hidden="true"></i></button>
-        <div id='geospatial-title'>Geoprocessing tools:</div>
+        <div id='geospatial-title'>Tools:</div>
         <div id='geospatial-tools'>
           <form>
             <select id='geospatial-tools-menu' onchange='startGeospatialTool(this.value)'>
               <option value='none'>None</option>
-              <option value='nearest'>Number of nearest points</option>
-              <option value='buffer'>Points within specified miles</option>
+              <option value='nearest'>Find x nearest trees</option>
+              <option value='buffer'>Trees within specified miles</option>
             </select>
           </form>
         </div>
@@ -78,7 +94,7 @@
       <!--<button id="legend-minimize"></button>-->
       <h4>Legend</h4>
       <div class="legend-item">
-        <img src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png">
+        <img src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png">
         <div class="legend-content">Fruit available</div>
       </div>
       <div class="legend-item">
