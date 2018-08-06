@@ -63,6 +63,8 @@ const greenIcon = L.icon({
  function showAll() {
   $('#editable').css('background', 'white');
   $('#editable').css('color', 'black');
+  $('#editable').css('top', '120px');
+  $('#geoprocessing-maximize').css('top', '166px');
   map.hasLayer(markerLocations) ? map.removeLayer(markerLocations) : null;
   map.hasLayer(locationMarker) ? map.removeLayer(locationMarker) : null;
   bufferDraw ? bufferDraw.removeFrom(map) : null;
@@ -100,8 +102,10 @@ const greenIcon = L.icon({
 
   // Get CartoDB selection as GeoJSON and Add to Map
   function showAllWithEdit(){
-    $('#editable').css('background', '#808080')
-    $('#editable').css('color', '#f5f5f5')
+    $('#editable').css('background', '#808080');
+    $('#editable').css('color', '#f5f5f5');
+    $('#editable').css('top', '154px');
+    $('#geoprocessing-maximize').css('top', '199px');
     map.hasLayer(markerLocations) ? map.removeLayer(markerLocations) : null;
     map.hasLayer(locationMarker) ? map.removeLayer(locationMarker) : null;
     bufferDraw ? bufferDraw.removeFrom(map) : null;
@@ -528,7 +532,7 @@ function toggleEdit() {
 
     const overlays = {};
 
-    L.control.layers(basemaps, overlays, {position: 'bottomleft'}).addTo(map);
+    L.control.layers(basemaps, overlays, {position: 'topleft'}).addTo(map);
 
     //handles fullscreen
     function fullscreen() {
@@ -537,5 +541,12 @@ function toggleEdit() {
 
     //hides fullscreen button if the window is not already
     if (window.location == window.parent.location) {
+      console.log(window.location == window.parent.location);
       document.getElementById('fullscreen').style.display = 'none';
     }
+
+    $('.leaflet-control-layers-toggle').css({'width': '31px', 'height': '31px'});
+    $('.leaflet-control-layers-list').css('z-index', '3000');
+    $('.leaflet-draw-toolbar').css('display', 'none')
+    
+
