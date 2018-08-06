@@ -1,6 +1,7 @@
 body {
     margin: 0px;
-    font-family: 'Open Sans', Helvetica, sans-serif;
+    /* font-family: 'Open Sans', Helvetica, sans-serif; */
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial;
   }
   
   img {
@@ -17,7 +18,7 @@ body {
     line-height: 60px;
     margin: 10px 0px 0px 80px;
     position: absolute;
-    font-family: Helvetica;
+    /* font-family: Helvetica; */
     color: white;
     text-shadow: 1px 1px 8px #ff0000;
     z-index: 1000;
@@ -49,7 +50,7 @@ body {
     font-size: 16px;
     z-index: 1000;
     top: 20px;
-    right: 42px;
+    right: -48px;
     /*opacity: 0.8;*/
     cursor: pointer;
     transition: 0.2s ease-in-out;
@@ -143,8 +144,8 @@ body {
     display: flex;
     font-size: 16px;
     z-index: 2000;
-    top: 132px;
-    left: 10px;
+    top: 110px;
+    left: -50px;
     transition: 0.2s ease-in-out;
     cursor: pointer;
     color: black;
@@ -156,8 +157,13 @@ body {
     background-color: rgb(240, 240, 240);
   }
 
-#geoprocessing-maximize {
+  .leaflet-draw-edit-edit.leaflet-disabled {
     display: none;
+  }
+
+#geoprocessing-maximize {
+    /* display: none; */
+    display: block;
     position: absolute;
     height: 32px;
     width: 34px;
@@ -169,8 +175,8 @@ body {
     text-decoration: none;
     font-size: 16px;
     z-index: 2000;
-    top: 182px;
-    left: 10px;
+    top: 156px;
+    left: -50px;
     transition: 0.2s ease-in-out;
     cursor: pointer;
     color: black;
@@ -195,7 +201,7 @@ body {
   #tree-form {
     display: none;
     position: absolute;
-    background-color: rgba(255, 255, 255, 0.9); 
+    background-color: rgba(255, 255, 255, 0.95); 
     box-shadow: 1px 2px 2px #888;
     border: none;
     color: black;
@@ -203,11 +209,20 @@ body {
     text-align: center;
     text-decoration: none;
     z-index: 1500;
-    top: 34%;
-    right: 40%;
     transition: 0.2s ease-in-out;
     font-size: 25px;
     border-radius: 3px;
+    top: 50%;
+    left: 50%;
+    margin-top: -190px;
+    margin-left: -220px;
+    width: 440px;
+    height: 380px;
+  }
+
+  #form-permission {
+    width: 174px;
+    height: 20px;
   }
   
   .form-group {
@@ -219,8 +234,9 @@ body {
   .form-control {
     /* display: inline-block; */
     float: right;
-    border-radius: 1px;
+    border-radius: 0px;
     margin-left: 20px;
+    width: 170px;
   }
 
   #form-control-buttons {
@@ -233,6 +249,7 @@ body {
 
   #geospatial-tools-container {
     position: fixed;
+    display: none;
     top: 10px;
     left: 150px;
     z-index: 1000;
@@ -248,7 +265,7 @@ body {
     /* background: white; */
     color: black;
     padding: 5px;
-    font-family: Arial, Helvetica, sans-serif;
+    /* font-family: Arial, Helvetica, sans-serif; */
     /* text-align: center; */
     font-weight: bold;
     /* height: 30px; */
@@ -259,6 +276,7 @@ body {
   
   #geospatial-tools {
     display: inline-block;
+    /* display: none; */
     vertical-align: middle;
   }
   
@@ -357,7 +375,7 @@ body {
     font-size: 16px;
     z-index: 2000;
     top: 74px;
-    right: 42px;
+    right: -48px;
     transition: 0.2s ease-in-out;
     cursor: pointer;
     color: black;
@@ -365,6 +383,32 @@ body {
   }
 
   #locate:hover {
+    color: rgb(68, 68, 68);
+    background-color: rgb(240, 240, 240);
+  }
+
+  #fullscreen {  
+    position: absolute;
+    height: 32px;
+    width: 34px;
+    background-color: white; 
+    box-shadow: 0 1px 1px 0 #888;
+    border: none;
+    padding: 5px 8px;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    font-size: 16px;
+    z-index: 2000;
+    top: 131px;
+    right: -48px;
+    transition: 0.2s ease-in-out;
+    cursor: pointer;
+    color: black;
+    font-size: 21px;
+  }
+
+  #fullscreen:hover {
     color: rgb(68, 68, 68);
     background-color: rgb(240, 240, 240);
   }
@@ -430,7 +474,8 @@ body {
     #geospatial-tools-container {
       left: 50%;
       right: 50%;
-      display: flex;
+      /* display: flex; */
+      display: none;
       align-items: center;
       justify-content: center;
       background: transparent;
@@ -444,14 +489,6 @@ body {
     #geospatial-title {
       background: rgba(255,255,255,1);
       padding: 1px;
-    }
-
-    #reset-button {
-      right: 3vw;
-    }
-
-    #locate {
-      right: 3vw;
     }
 
     #legend {
@@ -472,12 +509,12 @@ body {
         bottom: 50px;
     }
 
-    #tree-form {
+    /* #tree-form {
       top: 25vh;
       right: 3vw;
       left: 3vw;
       padding: 10px 15px;
-    }
+    } */
 
     .form-group label {
       font-size: 19px;
