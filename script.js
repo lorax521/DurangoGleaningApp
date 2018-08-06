@@ -17,8 +17,9 @@ let bufferDistance;
 let markerSymbol;
 let newSymbol = 'default';
 let legendActive = true;
-let geoprocessingActive = true;
+let geoprocessingActive = false;
 let bufferDraw;
+let locateActive = false;
 
 let navigationCoords;
  // variable to hold marker locations
@@ -52,14 +53,11 @@ const greyIcon = L.icon({
     popupAnchor:  [0, -34]
 });
 
-const greenIcon = L.Icon.extend({
-    options: {
-        shadowUrl: null,
-        iconSize: [25, 40],
-        iconAnchor: [13, 41],
-        popupAnchor:  [0, -34],
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
-    }
+const greenIcon = L.icon({
+  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+  //  shadowUrl: 'images/marker-shadow.png',
+  iconAnchor: [13, 41],
+  iconSize: [25, 40]
 });
 
  function showAll() {
@@ -73,12 +71,22 @@ const greenIcon = L.Icon.extend({
      markerLocations = L.geoJson(data,{
        onEachFeature: function (feature, layer) {
          let featureNotes = feature.properties.notes ? feature.properties.notes : '';
-         layer.feature.properties.icon == 'harvested' ? layer.options.icon = greyIcon : null;
+         layer.feature.properties.icon == 'harvested' ? layer.options.icon = greyIcon : layer.options.icon = greenIcon;
+         let addressProperty = feature.properties.address;
+         let contactProperty = feature.properties.contact;
+         if (feature.properties.permission === 'yes') {
+           addressProperty = '';
+         }
+        if (feature.properties.contact === null) {
+          contactProperty = '';
+        }  
          layer.bindPopup(
           '</em></p><button class="nav-btn" onclick="navigate()"><i class="fa fa-location-arrow" aria-hidden="true"></i></button>' +
            '<p><b> Type: </b>' + feature.properties.type +
            '<br /><b> Count: </b><em>' + feature.properties.count + '</em>' +
            '<br /><b> Permission Required: </b><em>' + feature.properties.permission + '</em>' +
+           '<br /><b> Address: </b><em>' + addressProperty + '</em>' +
+           '<br /><b> Contact: </b><em>' + contactProperty + '</em>' +
            '<br /><b> Notes: </b><em>' + featureNotes + '</em>' +
            '</p> <div id="hidden">' + feature.properties.cartodb_id + '</div>');
          layer.cartodb_id=feature.properties.cartodb_id;
@@ -102,15 +110,25 @@ const greenIcon = L.Icon.extend({
       markerLocations = L.geoJson(data,{
         onEachFeature: function (feature, layer) {
           let featureNotes = feature.properties.notes ? feature.properties.notes : '';
-            layer.feature.properties.icon == 'harvested' ? layer.options.icon = greyIcon : null;
+            layer.feature.properties.icon == 'harvested' ? layer.options.icon = greyIcon : layer.options.icon = greenIcon;
+            let addressProperty = feature.properties.address;
+            let contactProperty = feature.properties.contact;
+            if (feature.properties.permission === 'yes') {
+              addressProperty = '';
+            }
+           if (feature.properties.contact === null) {
+             contactProperty = '';
+           }  
           layer.bindPopup(
             '<p><b> Type: </b>' + feature.properties.type +
             '<br /><b> Count: </b><em>' + feature.properties.count + '</em>' +
             '<br /><b> Permission Required: </b><em>' + feature.properties.permission + '</em>' +
+            '<br /><b> Address: </b><em>' + addressProperty + '</em>' +
+            '<br /><b> Contact: </b><em>' + contactProperty + '</em>' +
             '<br /><b> Notes: </b><em>' + featureNotes + '</em>' +
             '</p> <div id="hidden">' + feature.properties.cartodb_id + '</div>' +
             '</em></p><button class="del-btn" onclick="deletePoint()"><i class="fa fa-trash" aria-hidden="true"></i></button>' +
-            '<div class="change-btn-item"><img src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png"></div>' +
+            '<div class="change-btn-item"><img src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png"></div>' +
             '<div class="change-btn-item"><button class="change-btn" onclick="updatePoint()"><i class="fa fa-exchange" aria-hidden="true"></i></button></div>' +
             '<div class="change-btn-item"><img src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-grey.png"></div>');
           layer.cartodb_id=feature.properties.cartodb_id;
@@ -142,12 +160,22 @@ const greenIcon = L.Icon.extend({
                 markerLocations = L.geoJson(data, {
                     onEachFeature: function (feature, layer) {
                         let featureNotes = feature.properties.notes ? feature.properties.notes : '';
-                        layer.feature.properties.icon == 'harvested' ? layer.options.icon = greyIcon : null;
+                        layer.feature.properties.icon == 'harvested' ? layer.options.icon = greyIcon : layer.options.icon = greenIcon;
+                        let addressProperty = feature.properties.address;
+                        let contactProperty = feature.properties.contact;
+                        if (feature.properties.permission === 'yes') {
+                          addressProperty = '';
+                        }
+                       if (feature.properties.contact === null) {
+                         contactProperty = '';
+                       }  
                         layer.bindPopup(
                             '</em></p><button class="nav-btn" onclick="navigate()"><i class="fa fa-location-arrow" aria-hidden="true"></i></button>' +
                             '<p><b> Type: </b>' + feature.properties.type +
                             '<br /><b> Count: </b><em>' + feature.properties.count + '</em>' +
                             '<br /><b> Permission Required: </b><em>' + feature.properties.permission + '</em>' +
+                            '<br /><b> Address: </b><em>' + addressProperty + '</em>' +
+                            '<br /><b> Contact: </b><em>' + contactProperty + '</em>' +
                             '<br /><b> Notes: </b><em>' + featureNotes + '</em>' +
                             '</p> <div id="hidden">' + feature.properties.cartodb_id + '</div>');
                         layer.cartodb_id=feature.properties.cartodb_id;
@@ -185,11 +213,21 @@ const greenIcon = L.Icon.extend({
                     onEachFeature: function (feature, layer) {
                         let featureNotes = feature.properties.notes ? feature.properties.notes : '';
                         layer.feature.properties.icon == 'harvested' ? layer.options.icon = greyIcon : null;
+                        let addressProperty = feature.properties.address;
+                        let contactProperty = feature.properties.contact;
+                        if (feature.properties.permission === 'yes') {
+                          addressProperty = '';
+                        }
+                       if (feature.properties.contact === null) {
+                         contactProperty = '';
+                       }  
                         layer.bindPopup(
                             '</em></p><button class="nav-btn" onclick="navigate()"><i class="fa fa-location-arrow" aria-hidden="true"></i></button>' +
                             '<p><b> Type: </b>' + feature.properties.type +
                             '<br /><b> Count: </b><em>' + feature.properties.count + '</em>' +
-                            '<br /><b> Permission Required: </b><em>' + feature.properties.permission + '</em>' +
+                            '<br /><b> Permission Required: </b><em>' + addressProperty + '</em>' +
+                            '<br /><b> Contact: </b><em>' + contactProperty + '</em>' +
+                            '<br /><b> Address: </b><em>' + feature.properties.address + '</em>' +
                             '<br /><b> Notes: </b><em>' + featureNotes + '</em>' +
                             '</p> <div id="hidden">' + feature.properties.cartodb_id + '</div>');
                         layer.cartodb_id=feature.properties.cartodb_id;
@@ -211,6 +249,11 @@ const greenIcon = L.Icon.extend({
         buffer();
         locationMarker = L.marker(e.latlng, {icon: redIcon});
         map.addLayer(locationMarker);
+      }
+      if(locateActive) {
+        locationMarker = L.marker(e.latlng, {icon: redIcon});
+        map.addLayer(locationMarker);
+        locateActive = false;
       }
   };
 
@@ -258,7 +301,7 @@ const drawPluginOptions = {
     //   }
     // },
     marker: {
-        icon: new greenIcon
+        icon: greenIcon
     }
   },
   edit: {
@@ -316,19 +359,19 @@ function toggleEdit() {
     // removes the green icon
     if (Object.keys(editableLayers._layers).length > 0) {map.removeLayer(map._layers[Number(Object.keys(editableLayers._layers)[Object.keys(editableLayers._layers).length - 1])])}
     // refreshes the map
-    setTimeout(function(){showAllWithEdit()}, 500);
+    setTimeout(function(){showAllWithEdit()}, 750);
    }
 
     function updatePoint() {
             persistOnCartoDB("UPDATE", cartoLayer);
-            setTimeout(function(){showAllWithEdit()}, 500);
+            setTimeout(function(){showAllWithEdit()}, 750);
     }
 
     function deletePoint() {
         if(confirm('Are you sure you want to delete this point? THIS CANNOT BE UNDONE')) {
             persistOnCartoDB("DELETE", cartoLayer);
             // refreshes the map
-            setTimeout(function(){showAllWithEdit()}, 500);
+            setTimeout(function(){showAllWithEdit()}, 750);
         }
     }
 
@@ -348,6 +391,8 @@ function toggleEdit() {
       const Vtype = $('#form-type').val();
       let Vcount = $('#form-count').val();
       const Vpermission = $('#form-permission').val();
+      const Vaddress = $('#form-address').val();
+      const Vcontact = $('#form-contact').val();
       const Vnotes = $('#form-notes').val();
       const geom = document.querySelector('#form-geom').value;
       switch (action) {
@@ -369,7 +414,7 @@ function toggleEdit() {
       sql += cartodb_ids.join(",");
       sql += "],ARRAY[";
       sql += geojsons.join(",");
-      sql += "],ARRAY['"+ Vtype + "'],ARRAY['"+ Vcount + "'],ARRAY['"+ Vpermission + "'],ARRAY['"+ Vnotes + "'],ARRAY['"+ newSymbol + "']);";
+      sql += "],ARRAY['"+ Vtype + "'],ARRAY['"+ Vcount + "'],ARRAY['"+ Vpermission + "'], ARRAY['"+ Vaddress + "'], ARRAY['"+ Vcontact + "'], ARRAY['"+ Vnotes + "'],ARRAY['"+ newSymbol + "']);";
       console.log("persisting... " + sql);
       //POST the SQL up to CARTO
       $.ajax({
@@ -439,7 +484,10 @@ function toggleEdit() {
 
       // sets the map location to the users location
       function locateUser () {
-        map.locate({setView: true});
+        // locationFound();
+        locateActive = true;
+        map.locate({setView: true})
+        .on('locationfound', function(e){locationFound(e)});
       }
 
       // navigates to marker coordinates
@@ -469,3 +517,25 @@ function toggleEdit() {
           geoprocessingActive = !geoprocessingActive;
       }
 
+      const Esri_WorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+      });
+
+    const basemaps = {
+      'default': tileLayer,
+      'satellite': Esri_WorldImagery
+    };
+
+    const overlays = {};
+
+    L.control.layers(basemaps, overlays, {position: 'bottomleft'}).addTo(map);
+
+    //handles fullscreen
+    function fullscreen() {
+      window.open('https://lorax521.github.io/DurangoGleaningApp/index.html');
+    }
+
+    //hides fullscreen button if the window is not already
+    if (window.location == window.parent.location) {
+      document.getElementById('fullscreen').style.display = 'none';
+    }
