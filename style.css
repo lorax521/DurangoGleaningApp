@@ -509,12 +509,17 @@ body {
         bottom: 50px;
     }
 
-    /* #tree-form {
-      top: 25vh;
-      right: 3vw;
-      left: 3vw;
-      padding: 10px 15px;
-    } */
+    #tree-form {
+      margin-top: -260px;
+      margin-left: -145px;
+      width: 250px;
+      height: 480px;
+      z-index: 2000;
+    }
+
+    #form-permission {
+      width: 106px;
+    }
 
     .form-group label {
       font-size: 19px;
