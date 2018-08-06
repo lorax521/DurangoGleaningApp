@@ -49,7 +49,7 @@ body {
     display: flex;
     font-size: 16px;
     z-index: 1000;
-    top: 20px;
+    top: 0px;
     right: -48px;
     /*opacity: 0.8;*/
     cursor: pointer;
@@ -374,7 +374,7 @@ body {
     display: flex;
     font-size: 16px;
     z-index: 2000;
-    top: 74px;
+    top: 46px;
     right: -48px;
     transition: 0.2s ease-in-out;
     cursor: pointer;
@@ -400,7 +400,7 @@ body {
     display: flex;
     font-size: 16px;
     z-index: 2000;
-    top: 131px;
+    top: 92px;
     right: -48px;
     transition: 0.2s ease-in-out;
     cursor: pointer;
@@ -539,6 +539,20 @@ body {
 
     #geoprocessing-minimize {
         right: -90px;
+    }
+
+    .leaflet-control-layers-toggle:after{ 
+      content:"your text"; 
+      color:red ;
+    }
+    .leaflet-control-layers-toggle{ 
+        width:200px;
+        background-position:3px 50% ;
+        padding:3px;
+        padding-left:36px;
+        text-decoration:none;
+        line-height:36px;
+    
     }
 
   }
