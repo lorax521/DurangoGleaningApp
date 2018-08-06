@@ -1,4 +1,4 @@
-    DROP FUNCTION IF EXISTS upsertLeafletData(int[], text[], text[], text[], text[], text[], text[]);
+    DROP FUNCTION IF EXISTS upsertLeafletData(int[], text[], text[], text[], text[], text[], text[], text[], text[]);
 
     -- Returns a set of op,cartodb_id values where op means:
     --
@@ -12,6 +12,8 @@
     Vtype text[],
     Vcount text[],
     Vpermission text[],
+    Vaddress text[],
+    Vcontact text[],
     Vnotes text[],
     newSymbol text[])
     RETURNS TABLE(op int, cartodb_id int)
@@ -23,7 +25,7 @@
     sql text;
     BEGIN
 
-    sql := 'WITH n(cartodb_id,the_geom, type, count, permission, notes, icon) AS (VALUES ';
+    sql := 'WITH n(cartodb_id,the_geom, type, count, permission, address, contact, notes, icon) AS (VALUES ';
 
     --Iterate over the values
     FOR i in 1 .. array_upper(geojsons, 1)
@@ -34,6 +36,8 @@
     || 'CAST('''|| Vtype[i] ||''' AS text ),'
     || 'CAST('''|| Vcount[i] ||''' AS text ),'
     || 'CAST('''|| Vpermission[i] ||''' AS text ),'
+    || 'CAST('''|| Vaddress[i] ||''' AS text ),'
+    || 'CAST('''|| Vcontact[i] ||''' AS text ),'
     || 'CAST('''|| Vnotes[i] ||''' AS text ),'
     || 'CAST('''|| newSymbol[i] ||''' AS text )' || ')';
     END LOOP;
@@ -47,8 +51,8 @@
     || 'DELETE FROM durango p WHERE p.cartodb_id IN ('
     || 'SELECT n.cartodb_id FROM n WHERE cartodb_id >= 0 AND '
     || ' n.the_geom IS NULL ) RETURNING p.cartodb_id ), do_insert AS ('
-    || 'INSERT INTO durango (the_geom, type, count, permission, notes, icon)'
-    || 'SELECT n.the_geom, n.type, n.count, n.permission, n.notes, n.icon FROM n WHERE n.cartodb_id < 0 AND '
+    || 'INSERT INTO durango (the_geom, type, count, permission, address, contact, notes, icon)'
+    || 'SELECT n.the_geom, n.type, n.count, n.permission, n.address, n.contact, n.notes, n.icon FROM n WHERE n.cartodb_id < 0 AND '
     || ' n.the_geom IS NOT NULL RETURNING cartodb_id ) '
     || 'SELECT 0,cartodb_id FROM do_update UNION ALL '
     || 'SELECT 1,cartodb_id FROM do_insert UNION ALL '
@@ -62,4 +66,4 @@
     $$;
 
     --Grant access to the public user
-    GRANT EXECUTE ON FUNCTION upsertLeafletData(integer[],text[], text[], text[], text[], text[], text[]) TO publicuser;
+    GRANT EXECUTE ON FUNCTION upsertLeafletData(integer[],text[], text[], text[], text[], text[], text[], text[], text[]) TO publicuser;
